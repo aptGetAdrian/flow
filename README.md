@@ -1,32 +1,19 @@
 # Flow
 
-Kotlin Flow je API za obdelavo tokov podatkov. Omogoča asinhrono obdelavo zaporedij vrednosti, ki se prihajajo postopoma. V bistvu obravnavamo podatke, ki se oddajajo skozi čas. Tako temelji na vzorcu proizvajalec–potrošnik.
+Kotlin Flow je API za obdelavo tokov podatkov, ki je del knjižnice `kotlinx.coroutines`. Omogoča asinhrono obdelavo zaporedij vrednosti, ki prihajajo postopoma. V bistvu obravnavamo podatke, ki se oddajajo skozi čas. Tako temelji na vzorcu proizvajalec–potrošnik.
 Proizvajalec je lahko podatkovna baza, API klici, podatki s senzorjev itd. Potrošnik je lahko UI, ViewModel itd. Flow skrbi za varen asinhron prenos podatkov med proizvajalcem in potrošnikom.
 
-Flow sledi principu "cold stream", kar pomeni, da se tok podatkov ne začne izvajati, dokler se nanj ne naročimo (collect). To omogoča leno izvajanje in učinkovito upravljanje z viri.
+Flow sledi principu "cold stream", kar pomeni, da se tok podatkov ne začne izvajati, dokler se nanj ne naročimo (collect). To omogoča učinkovito upravljanje z viri.
 
 ---
 
-## Zakaj Flow?
+## Zakaj Flow? Prednosti?
 1. **Integracija s korutinami:** Flow je razširitev Kotlin Coroutines, kar pomeni, da lahko izkoristimo vse prednosti sočasnosti, ki jih Kotlin ponuja. Ni ročnega upravljanja z nitmi. 
 2. **Podpora v Android ekosistemu:** Flow je priporočen pristop za reaktivno programiranje v Android aplikacijah in je tesno integriran z Jetpack komponentami (ViewModel, Lifecycle itd.).
 3. **Backpressure podpora:** Flow samodejno upravlja backpressure, kar pomeni, da proizvajalec ne more prehiteti porabnika.
 4. **Bogastvo operatorjev:** Flow ponuja obsežen nabor operatorjev za transformacijo, filtriranje in kombiniranje tokov (map, filter, flatMapConcat, combine, zip itd.).
 5. **Uporabniško prijetna sintaksa:** V primerjavi z *RxJava* je sintaksa Flow bistveno bolj berljiva.
 
----
-
-## Prednosti
-
-| Prednost | Opis |
-|----------|------|
-| **Lahka integracija** | Flow je del standardne Kotlin knjižnice in se naravno integrira s korutinami |
-| **Strukturirana sočasnost** | Avtomatsko prekinjanje tokov ob preklicu korutine |
-| **Berljiva sintaksa** | Manjša količina boilerplate kode v primerjavi z RxJava |
-| **Cold streams** | Tok se izvaja samo ko je aktiven naročnik, kar varčuje z viri |
-| **Podpora za Android** | Integracija z LiveData, Room, ViewModel preko lifecycle-aware zbiranja |
-| **Testiranje** | Enostavno testiranje s pomočjo kotlinx-coroutines-test |
-| **Operatorji** | Bogat nabor operatorjev za manipulacijo tokov |
 
 ## Slabosti
 
@@ -98,6 +85,25 @@ dependencies {
 }
 ```
 
+Prikaz osnovnega primera:
+
+```kotlin
+fun main() = runBlocking {
+
+    // osnoven flow blok
+    val simpleFlow = flow {
+        emit(1)
+        emit(2)
+        emit(3)
+    }
+
+    // preprosto zbiranje podatkov iz flowa
+    simpleFlow.collect { value ->
+        println(value)
+    }
+}
+```
+
 V spodnji funkciji sem web socket ovil v flow blok, da lahko neprekinjen tok sporočil obravnavam kot asinhroni tok podatkov.
 
 Uporabil sem callbackFlow, saj WebSocket temelji na callbackih. Vsako prejeto sporočilo iz WebSocketa postane nova vrednost v Flow-u.
@@ -166,4 +172,13 @@ fun main() = runBlocking {
     }
 }
 ```
+
+---
+
+## Prikaz v aplikaciji
+
+![alt text](image.png)
+---
+![alt text](image2.png)
+
 
