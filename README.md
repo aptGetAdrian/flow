@@ -51,7 +51,6 @@ Podjetja, ki uporabljajo Flow: Google, JetBrains, Square, Netflix, Uber in štev
 | **collect()** | O(n), kjer je n število emitiranih elementov |
 | **map/filter** | O(n) |
 | **combine (dva toka)** | O(n + m) |
-| **flatMapConcat** | O(n + m) |
 
 Flow operacije so optimizirane in se izvajajo asinhrono, kar pomeni, da ne blokirajo glavne niti.
 
