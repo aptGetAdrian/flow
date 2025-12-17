@@ -112,8 +112,6 @@ Ko se WebSocket odpre, se povezava inicializira, ob vsakem prejetem sporočilu p
 
 V primeru napake ali zaprtja web socketa flow zaprem, s čimer zagotovim, da se tok podatkov pravilno zaključi.
 
-Z uporabo awaitClose poskrbim za pravilno upravljanje življenjskega cikla: ko se Flow prekine (na primer ob zaprtju zaslona ali preklicu korutine), se web socket povezava samodejno zapre, kar prepreči uhajanje virov in zagotavlja varno asinhrono komunikacijo.
-
 ```kotlin
 // flow builder
 fun webSocketFlow(url: String): Flow<String> = callbackFlow {
